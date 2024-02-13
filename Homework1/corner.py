@@ -1,5 +1,5 @@
 import numpy as np
-from utils import filter2d, partial_x, partial_y
+from utils import filter2d, partial_x, partial_y,gaussian_kernel
 from skimage.feature import peak_local_max
 from skimage.io import imread
 import matplotlib.pyplot as plt
@@ -22,6 +22,26 @@ def harris_corners(img, window_size=3, k=0.04):
     
     ### YOUR CODE HERE
 
+    # Compute gradients
+    Ix = partial_x(img)
+    Iy = partial_y(img)
+
+    # Compute products of derivatives
+    Ixx = Ix ** 2
+    Iyy = Iy ** 2
+    Ixy = Ix * Iy
+
+    # Apply Gaussian filter
+    gauss = gaussian_kernel(window_size, window_size / 2)
+    Sxx = filter2d(Ixx, gauss)
+    Syy = filter2d(Iyy, gauss)
+    Sxy = filter2d(Ixy, gauss)
+
+    # Compute corner response
+    detM = Sxx * Syy - Sxy ** 2
+    traceM = Sxx + Syy
+    response = detM - k * traceM ** 2
+
     ### END YOUR CODE
 
     return response
@@ -31,14 +51,32 @@ def main():
 
     ### YOUR CODE HERE
     
+
     # Compute Harris corner response
+    response = harris_corners(img)
 
     # Threshold on response
+    thresh = 0.01 * np.max(response)
+    response_thresh = response > thresh
 
     # Perform non-max suppression by finding peak local maximum
+    corners = peak_local_max(response, min_distance=1, threshold_abs=thresh)
 
     # Visualize results
-    
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 3, 1)
+    plt.title('Harris Response')
+    plt.imshow(response, cmap='gray')
+    plt.subplot(1, 3, 2)
+    plt.title('Thresholded Response')
+    plt.imshow(response_thresh, cmap='gray')
+    plt.subplot(1, 3, 3)
+    plt.title('Detected Corners')
+    plt.imshow(img, cmap='gray')
+    for corner in corners:
+        plt.scatter(corner[1], corner[0], s=10, c='red', marker='x')
+    plt.show()
+
     ### END YOUR CODE
     
 if __name__ == "__main__":
