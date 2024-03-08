@@ -47,6 +47,7 @@ def harris_corners(img, window_size=3, k=0.04):
     return response
 
 def main():
+
     img = imread('building.jpg', as_gray=True)
 
     ### YOUR CODE HERE
@@ -63,7 +64,8 @@ def main():
     corners = peak_local_max(response, min_distance=1, threshold_abs=thresh)
 
     # Visualize results
-    plt.figure(figsize=(12, 6))
+    plt.rcParams.update({'font.size': 14})
+    plt.figure(figsize=(24, 12))  # Increase the figure size
     plt.subplot(1, 3, 1)
     plt.title('Harris Response')
     plt.imshow(response, cmap='gray')
@@ -74,10 +76,12 @@ def main():
     plt.title('Detected Corners')
     plt.imshow(img, cmap='gray')
     for corner in corners:
-        plt.scatter(corner[1], corner[0], s=10, c='red', marker='x')
+        plt.scatter(corner[1], corner[0], s=40, c='red', marker='x')  # Increase the scatter point size
+
+    plt.savefig('Corner_Detector.jpg')
     plt.show()
 
-    ### END YOUR CODE
+
     
 if __name__ == "__main__":
     main()

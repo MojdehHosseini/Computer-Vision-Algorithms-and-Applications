@@ -21,7 +21,8 @@ def main():
     gradient_magnitude = np.sqrt(img_x ** 2 + img_y ** 2)
 
     # Visualize results
-    plt.figure(figsize=(12, 4))
+    plt.rcParams.update({'font.size': 14})
+    plt.figure(figsize=(24, 12))  # Increase the figure size
     plt.subplot(1, 3, 1)
     plt.title('Gradient in x direction')
     plt.imshow(img_x, cmap='gray')
@@ -31,7 +32,10 @@ def main():
     plt.subplot(1, 3, 3)
     plt.title('Gradient Magnitude')
     plt.imshow(gradient_magnitude, cmap='gray')
+
+    plt.savefig('Edge_Detector.jpg')
     plt.show()
+
 
     ### END YOUR CODE
     
