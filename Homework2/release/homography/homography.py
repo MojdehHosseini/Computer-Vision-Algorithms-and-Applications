@@ -29,6 +29,7 @@ def matchPics(I1, I2):
 
     ### YOUR CODE HERE
     ### You can use skimage or OpenCV to perform SIFT matching
+
     # Convert color images to grayscale, ensuring they are in the correct format for SIFT
     I1 = ((I1) * 255).astype('uint8')
     I2 = ((I2) * 255).astype('uint8')
@@ -82,6 +83,7 @@ def computeH_ransac(matches, locs1, locs2):
         # Step 2: Homography Estimation
         H = compute_homography(selected_locs1, selected_locs2)
 
+
         # Step 3: Inlier Counting
         num_inliers, current_inliers = 0, []
         for i, match in enumerate(matches):
@@ -100,6 +102,7 @@ def computeH_ransac(matches, locs1, locs2):
             bestH = H
             inliers = current_inliers
 
+    print(bestH)
     return bestH, inliers
 
 

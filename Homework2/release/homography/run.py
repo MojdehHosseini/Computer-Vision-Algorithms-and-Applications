@@ -35,4 +35,5 @@ composite_img = compositeH(bestH, hp_cover_resize, cv_desk)
 
 # show the final composite image
 plt.imshow(composite_img)
+plt.savefig('final result.jpg')
 plt.show()
