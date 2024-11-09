@@ -1,4 +1,5 @@
-# Homework1
+# Harris Corner Detector
+
 The assignments of Compuer Vision Course in University
 
 The Harris corner detector involves the following steps:# Harris Corner Detector
